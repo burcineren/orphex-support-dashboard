@@ -1,20 +1,22 @@
 <template>
   <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <!-- Search -->
       <div class="relative">
         <SearchIcon />
         <input
-          :value="search"
-          @input="$emit('update:search', $event.target.value)"
+          :value="filtersStore.searchTerm"
+          @input="filtersStore.setSearch($event.target.value)"
           type="text"
           placeholder="Search by title or customer..."
           class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
       </div>
 
+      <!-- Status Filter -->
       <select
-        :value="status"
-        @change="$emit('update:status', $event.target.value)"
+        :value="filtersStore.statusFilter"
+        @change="filtersStore.setStatusFilter($event.target.value)"
         class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
       >
         <option value="All">All Statuses</option>
@@ -24,17 +26,19 @@
         <option value="Done">Done</option>
       </select>
 
+      <!-- Sort Order -->
       <select
-        :value="sort"
-        @change="$emit('update:sort', $event.target.value)"
+        :value="filtersStore.sortOrder"
+        @change="filtersStore.setSortOrder($event.target.value)"
         class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
       >
         <option value="newest">Newest First</option>
         <option value="oldest">Oldest First</option>
       </select>
 
+      <!-- Export CSV -->
       <button
-        @click="$emit('export')"
+        @click="filtersStore.exportCSV"
         class="flex items-center justify-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
       >
         <DownloadIcon />
@@ -42,11 +46,12 @@
       </button>
     </div>
 
-    <div class="mt-3 flex items-center">
+    <!-- Needs Attention Filter -->
+    <div class="mt-3 flex items-center justify-between">
       <label class="flex items-center gap-2 cursor-pointer">
         <input
-          :checked="needsAttention"
-          @change="$emit('update:needsAttention', $event.target.checked)"
+          :checked="filtersStore.showNeedsAttention"
+          @change="filtersStore.setNeedsAttention($event.target.checked)"
           type="checkbox"
           class="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
         />
@@ -55,27 +60,24 @@
           Show only "Needs Attention"
         </span>
       </label>
+
+      <!-- Clear Filters Button -->
+      <button
+        v-if="filtersStore.hasActiveFilters"
+        @click="filtersStore.resetFilters"
+        class="text-sm text-blue-600 hover:text-blue-700 font-medium"
+      >
+        Clear all filters
+      </button>
     </div>
   </div>
 </template>
 
 <script setup>
+import { useFiltersStore } from "../stores/filters";
 import SearchIcon from "./icons/SearchIcon.vue";
 import DownloadIcon from "./icons/DownloadIcon.vue";
 import AlertIcon from "./icons/AlertIcon.vue";
 
-defineProps({
-  search: String,
-  status: String,
-  sort: String,
-  needsAttention: Boolean,
-});
-
-defineEmits([
-  "update:search",
-  "update:status",
-  "update:sort",
-  "update:needsAttention",
-  "export",
-]);
+const filtersStore = useFiltersStore();
 </script>

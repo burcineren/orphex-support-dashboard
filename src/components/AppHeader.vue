@@ -5,15 +5,16 @@
         <div>
           <h1 class="text-2xl font-bold text-gray-900">Support Requests</h1>
           <p class="text-sm text-gray-500 mt-1">
-            {{ filteredCount }} of {{ totalCount }} requests
+            {{ filtersStore.filteredCount }} of
+            {{ requestsStore.totalCount }} requests
           </p>
         </div>
         <div class="flex gap-2">
           <button
-            @click="$emit('update:activeView', 'list')"
+            @click="uiStore.setActiveView('list')"
             :class="[
               'px-4 py-2 rounded-lg font-medium transition-colors',
-              activeView === 'list'
+              uiStore.activeView === 'list'
                 ? 'bg-blue-600 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
             ]"
@@ -21,10 +22,10 @@
             List View
           </button>
           <button
-            @click="$emit('update:activeView', 'chart')"
+            @click="uiStore.setActiveView('chart')"
             :class="[
               'px-4 py-2 rounded-lg font-medium transition-colors',
-              activeView === 'chart'
+              uiStore.activeView === 'chart'
                 ? 'bg-blue-600 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
             ]"
@@ -38,11 +39,11 @@
 </template>
 
 <script setup>
-defineProps({
-  filteredCount: Number,
-  totalCount: Number,
-  activeView: String,
-});
+import { useRequestsStore } from "../stores/requests";
+import { useFiltersStore } from "../stores/filters";
+import { useUIStore } from "../stores/ui";
 
-defineEmits(["update:activeView"]);
+const requestsStore = useRequestsStore();
+const filtersStore = useFiltersStore();
+const uiStore = useUIStore();
 </script>

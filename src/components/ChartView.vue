@@ -18,18 +18,15 @@
 <script setup>
 import { computed } from "vue";
 import { Chart as Highcharts } from "highcharts-vue";
+import { useRequestsStore } from "../stores/requests";
 
-const props = defineProps({
-  requests: Array,
-});
+const requestsStore = useRequestsStore();
 
 const statusChartOptions = computed(() => {
-  const counts = props.requests.reduce((acc, r) => {
-    acc[r.status] = (acc[r.status] || 0) + 1;
-    return acc;
-  }, {});
-
-  const data = Object.entries(counts).map(([name, y]) => ({ name, y }));
+  const data = Object.entries(requestsStore.statusCounts).map(([name, y]) => ({
+    name,
+    y,
+  }));
 
   return {
     chart: { type: "column" },
@@ -56,12 +53,9 @@ const statusChartOptions = computed(() => {
 });
 
 const priorityChartOptions = computed(() => {
-  const counts = props.requests.reduce((acc, r) => {
-    acc[r.priority] = (acc[r.priority] || 0) + 1;
-    return acc;
-  }, {});
-
-  const data = Object.entries(counts).map(([name, y]) => ({ name, y }));
+  const data = Object.entries(requestsStore.priorityCounts).map(
+    ([name, y]) => ({ name, y })
+  );
 
   return {
     chart: { type: "pie" },

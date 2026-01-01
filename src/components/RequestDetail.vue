@@ -9,16 +9,16 @@
       <div
         class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center"
       >
-        <h2 class="text-xl font-bold text-gray-900">{{ request.id }}</h2>
+        <h2 class="text-xl font-bold text-gray-900">{{ request?.id }}</h2>
         <button
-          @click="$emit('close')"
+          @click="uiStore.closeDetail"
           class="text-gray-400 hover:text-gray-600"
         >
           <CloseIcon />
         </button>
       </div>
 
-      <div class="p-6 space-y-6">
+      <div v-if="request" class="p-6 space-y-6">
         <div>
           <h3 class="text-lg font-semibold text-gray-900 mb-2">
             {{ request.title }}
@@ -115,7 +115,7 @@
 
         <div class="flex justify-end gap-3 pt-4 border-t">
           <button
-            @click="$emit('close')"
+            @click="uiStore.closeDetail"
             class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
           >
             Cancel
@@ -133,29 +133,45 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed, watch } from "vue";
+import { useRequestsStore } from "../stores/requests";
+import { useUIStore } from "../stores/ui";
 import CloseIcon from "./icons/CloseIcon.vue";
 
-const props = defineProps({
-  request: Object,
-});
+const requestsStore = useRequestsStore();
+const uiStore = useUIStore();
 
-const emit = defineEmits(["close", "save", "add-comment"]);
-
-const editStatus = ref(props.request.status);
-const editPriority = ref(props.request.priority);
+const editStatus = ref("");
+const editPriority = ref("");
 const newComment = ref("");
 
+const request = computed(() => {
+  return requestsStore.getRequestById(uiStore.selectedRequestId);
+});
+
+// Initialize edit values when request changes
+watch(
+  request,
+  (newRequest) => {
+    if (newRequest) {
+      editStatus.value = newRequest.status;
+      editPriority.value = newRequest.priority;
+    }
+  },
+  { immediate: true }
+);
+
 const handleSave = () => {
-  emit("save", {
+  requestsStore.updateRequest(uiStore.selectedRequestId, {
     status: editStatus.value,
     priority: editPriority.value,
   });
+  uiStore.closeDetail();
 };
 
 const handleAddComment = () => {
   if (newComment.value.trim()) {
-    emit("add-comment", newComment.value);
+    requestsStore.addComment(uiStore.selectedRequestId, newComment.value);
     newComment.value = "";
   }
 };

@@ -1,10 +1,19 @@
 <template>
   <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-    <div v-if="requests.length === 0" class="text-center py-12">
+    <!-- Empty State -->
+    <div v-if="filtersStore.filteredCount === 0" class="text-center py-12">
       <AlertIcon class="h-12 w-12 text-gray-400 mx-auto mb-3" />
       <p class="text-gray-500">No requests found</p>
+      <button
+        v-if="filtersStore.hasActiveFilters"
+        @click="filtersStore.resetFilters"
+        class="mt-4 text-sm text-blue-600 hover:text-blue-700 font-medium"
+      >
+        Clear filters
+      </button>
     </div>
 
+    <!-- Table -->
     <div v-else class="overflow-x-auto">
       <table class="w-full">
         <thead class="bg-gray-50 border-b border-gray-200">
@@ -48,9 +57,9 @@
         </thead>
         <tbody class="divide-y divide-gray-200">
           <tr
-            v-for="request in requests"
+            v-for="request in filtersStore.filteredRequests"
             :key="request.id"
-            @click="$emit('open-detail', request)"
+            @click="uiStore.openDetail(request.id)"
             class="hover:bg-gray-50 cursor-pointer transition-colors"
           >
             <td class="px-6 py-4 text-sm font-medium text-gray-900">
@@ -80,16 +89,15 @@
 </template>
 
 <script setup>
+import { useFiltersStore } from "../stores/filters";
+import { useUIStore } from "../stores/ui";
 import StatusBadge from "./StatusBadge.vue";
 import PriorityBadge from "./PriorityBadge.vue";
 import AttentionBadges from "./AttentionBadges.vue";
 import AlertIcon from "./icons/AlertIcon.vue";
 
-defineProps({
-  requests: Array,
-});
-
-defineEmits(["open-detail"]);
+const filtersStore = useFiltersStore();
+const uiStore = useUIStore();
 
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString();
