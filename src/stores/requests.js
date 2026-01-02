@@ -63,15 +63,11 @@ export const useRequestsStore = defineStore("requests", () => {
   // ACTIONS
   // ========================================
 
-  /**
-   * Initialize data from localStorage or generate mock data
-   */
   const initData = async () => {
     loading.value = true;
     error.value = null;
 
     try {
-      // Simulate network delay
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       const stored = localStorage.getItem("orphex_requests");
@@ -90,9 +86,6 @@ export const useRequestsStore = defineStore("requests", () => {
     }
   };
 
-  /**
-   * Save current requests to localStorage
-   */
   const saveToLocalStorage = () => {
     try {
       localStorage.setItem("orphex_requests", JSON.stringify(requests.value));
@@ -101,9 +94,6 @@ export const useRequestsStore = defineStore("requests", () => {
     }
   };
 
-  /**
-   * Update a request by ID
-   */
   const updateRequest = (id, updates) => {
     const index = requests.value.findIndex((r) => r.id === id);
 
@@ -122,23 +112,14 @@ export const useRequestsStore = defineStore("requests", () => {
     return true;
   };
 
-  /**
-   * Update request status
-   */
   const updateStatus = (id, status) => {
     return updateRequest(id, { status });
   };
 
-  /**
-   * Update request priority
-   */
   const updatePriority = (id, priority) => {
     return updateRequest(id, { priority });
   };
 
-  /**
-   * Add a comment to a request
-   */
   const addComment = (id, commentText) => {
     const index = requests.value.findIndex((r) => r.id === id);
 
@@ -163,9 +144,6 @@ export const useRequestsStore = defineStore("requests", () => {
     return true;
   };
 
-  /**
-   * Delete a request by ID
-   */
   const deleteRequest = (id) => {
     const index = requests.value.findIndex((r) => r.id === id);
 
@@ -179,9 +157,6 @@ export const useRequestsStore = defineStore("requests", () => {
     return true;
   };
 
-  /**
-   * Create a new request
-   */
   const createRequest = (requestData) => {
     const newRequest = {
       id: `REQ-${String(requests.value.length + 1).padStart(4, "0")}`,
@@ -197,24 +172,15 @@ export const useRequestsStore = defineStore("requests", () => {
     return newRequest;
   };
 
-  /**
-   * Retry data initialization after error
-   */
   const retry = () => {
     return initData();
   };
 
-  /**
-   * Reset all data and regenerate mock data
-   */
   const resetData = () => {
     requests.value = generateMockData();
     saveToLocalStorage();
   };
 
-  /**
-   * Clear all data
-   */
   const clearData = () => {
     requests.value = [];
     localStorage.removeItem("orphex_requests");
@@ -224,7 +190,6 @@ export const useRequestsStore = defineStore("requests", () => {
   // WATCHERS
   // ========================================
 
-  // Auto-save to localStorage on any change
   watch(
     requests,
     () => {

@@ -1,20 +1,6 @@
 <template>
   <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-    <!-- Empty State -->
-    <div v-if="filtersStore.filteredCount === 0" class="text-center py-12">
-      <AlertIcon class="h-12 w-12 text-gray-400 mx-auto mb-3" />
-      <p class="text-gray-500">No requests found</p>
-      <button
-        v-if="filtersStore.hasActiveFilters"
-        @click="filtersStore.resetFilters"
-        class="mt-4 text-sm text-blue-600 hover:text-blue-700 font-medium"
-      >
-        Clear filters
-      </button>
-    </div>
-
-    <!-- Table -->
-    <div v-else class="overflow-x-auto">
+    <div class="overflow-x-auto">
       <table class="w-full">
         <thead class="bg-gray-50 border-b border-gray-200">
           <tr>
@@ -57,10 +43,14 @@
         </thead>
         <tbody class="divide-y divide-gray-200">
           <tr
-            v-for="request in filtersStore.filteredRequests"
+            v-for="request in requests"
             :key="request.id"
-            @click="uiStore.openDetail(request.id)"
+            @click="$emit('open-detail', request)"
             class="hover:bg-gray-50 cursor-pointer transition-colors"
+            role="button"
+            tabindex="0"
+            @keydown.enter="$emit('open-detail', request)"
+            @keydown.space.prevent="$emit('open-detail', request)"
           >
             <td class="px-6 py-4 text-sm font-medium text-gray-900">
               {{ request.id }}
@@ -89,15 +79,18 @@
 </template>
 
 <script setup>
-import { useFiltersStore } from "../stores/filters";
-import { useUIStore } from "../stores/ui";
 import StatusBadge from "./StatusBadge.vue";
 import PriorityBadge from "./PriorityBadge.vue";
 import AttentionBadges from "./AttentionBadges.vue";
-import AlertIcon from "./icons/AlertIcon.vue";
 
-const filtersStore = useFiltersStore();
-const uiStore = useUIStore();
+defineProps({
+  requests: {
+    type: Array,
+    required: true,
+  },
+});
+
+defineEmits(["open-detail"]);
 
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString();

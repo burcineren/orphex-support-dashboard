@@ -20,44 +20,28 @@ export const useUIStore = defineStore("ui", () => {
   // ACTIONS
   // ========================================
 
-  /**
-   * Set active view
-   */
   const setActiveView = (view) => {
     if (view === "list" || view === "chart") {
       activeView.value = view;
     }
   };
 
-  /**
-   * Toggle between list and chart view
-   */
   const toggleView = () => {
     activeView.value = activeView.value === "list" ? "chart" : "list";
   };
 
-  /**
-   * Open detail modal for a request
-   */
   const openDetail = (requestId) => {
     selectedRequestId.value = requestId;
     isDetailModalOpen.value = true;
   };
 
-  /**
-   * Close detail modal
-   */
   const closeDetail = () => {
     isDetailModalOpen.value = false;
-    // Delay clearing selectedRequestId for smooth animation
     setTimeout(() => {
       selectedRequestId.value = null;
     }, 300);
   };
 
-  /**
-   * Toggle sidebar
-   */
   const toggleSidebar = () => {
     isSidebarOpen.value = !isSidebarOpen.value;
   };
