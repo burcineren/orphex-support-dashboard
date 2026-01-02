@@ -19,7 +19,7 @@ A modern Vue 3 application for managing and visualizing support requests with ad
 
 ```bash
 # 1. Clone the repository
-git clone <repository-url>
+git clone [<repository-url>](https://github.com/burcineren/orphex-support-dashboard.git)
 cd orphex-support-dashboard
 
 # 2. Install dependencies
