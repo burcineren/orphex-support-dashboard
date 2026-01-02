@@ -10,28 +10,40 @@
           </p>
         </div>
         <div class="flex gap-2">
-          <button
-            @click="uiStore.setActiveView('list')"
-            :class="[
-              'px-4 py-2 rounded-lg font-medium transition-colors',
-              uiStore.activeView === 'list'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
-            ]"
+          <router-link
+            to="/dashboard"
+            custom
+            v-slot="{ navigate, isActive }"
           >
-            List View
-          </button>
-          <button
-            @click="uiStore.setActiveView('chart')"
-            :class="[
-              'px-4 py-2 rounded-lg font-medium transition-colors',
-              uiStore.activeView === 'chart'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
-            ]"
+            <button
+              @click="navigate"
+              :class="[
+                'px-4 py-2 rounded-lg font-medium transition-colors',
+                isActive
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
+              ]"
+            >
+              List View
+            </button>
+          </router-link>
+          <router-link
+            to="/charts"
+            custom
+            v-slot="{ navigate, isActive }"
           >
-            Charts
-          </button>
+            <button
+              @click="navigate"
+              :class="[
+                'px-4 py-2 rounded-lg font-medium transition-colors',
+                isActive
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
+              ]"
+            >
+              Charts
+            </button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -41,9 +53,7 @@
 <script setup>
 import { useRequestsStore } from "../stores/requests";
 import { useFiltersStore } from "../stores/filters";
-import { useUIStore } from "../stores/ui";
 
 const requestsStore = useRequestsStore();
 const filtersStore = useFiltersStore();
-const uiStore = useUIStore();
 </script>
