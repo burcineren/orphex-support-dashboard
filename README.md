@@ -87,7 +87,7 @@ orphex-support-dashboard/
 │   │   ├── requests.js      # Request CRUD operations
 │   │   ├── filters.js       # Filter & search logic
 │   │   └── ui.js            # UI state (modals, views)
-│   ├── views/               # Route views
+│   ├── pages/               # Route views
 │   │   ├── DashboardView.vue # Main dashboard
 │   │   └── RequestDetailView.vue # Detail page
 │   ├── router/              # Vue Router configuration
