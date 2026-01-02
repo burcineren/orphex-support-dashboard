@@ -2,7 +2,6 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 import App from "./App.vue";
 import HighchartsVue from "highcharts-vue";
-import Highcharts from "highcharts";
 import "highcharts/modules/accessibility";
 import "./style.css";
 import router from "./router";
