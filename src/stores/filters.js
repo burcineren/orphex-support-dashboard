@@ -1,9 +1,7 @@
-// stores/filters.js
 import { defineStore } from "pinia";
 import { ref, computed, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { useRequestsStore } from "./requests.js"; // Yeni requests store
-import { calculateNeedsAttention } from "@/composables/useSupportData.js"; // Yeni composable'dan
+import { useRequestsStore } from "./requests.js";
 
 export const useFiltersStore = defineStore("filters", () => {
   const router = useRouter();

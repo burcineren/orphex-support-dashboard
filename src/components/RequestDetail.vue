@@ -14,7 +14,7 @@
           @click="uiStore.closeDetail"
           class="text-gray-400 hover:text-gray-600"
         >
-          <CloseIcon />
+          <X />
         </button>
       </div>
 
@@ -136,7 +136,7 @@
 import { ref, computed, watch } from "vue";
 import { useRequestsStore } from "../stores/requests";
 import { useUIStore } from "../stores/ui";
-import CloseIcon from "./icons/CloseIcon.vue";
+import { X } from "lucide-vue-next";
 
 const requestsStore = useRequestsStore();
 const uiStore = useUIStore();

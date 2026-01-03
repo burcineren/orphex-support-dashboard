@@ -3,7 +3,7 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
       <!-- Search -->
       <div class="relative">
-        <SearchIcon
+        <Search
           class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
         />
         <input
@@ -46,7 +46,7 @@
         class="flex items-center justify-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-400 transition-colors"
         :disabled="!filtersStore.filteredCount"
       >
-        <DownloadIcon class="w-4 h-4" />
+        <Download class="w-4 h-4" />
         Export {{ filtersStore.filteredCount }} CSV
       </button>
     </div>
@@ -65,7 +65,7 @@
           <span
             class="text-sm font-medium text-gray-700 flex items-center gap-1 group-hover:text-blue-600 transition-colors"
           >
-            <AlertIcon class="w-4 h-4" />
+            <AlertTriangle class="w-4 h-4" />
             Needs Attention Only ({{
               requestsStore.needsAttentionRequests.length
             }})
@@ -118,9 +118,7 @@
 <script setup>
 import { useFiltersStore } from "../stores/filters.js";
 import { useRequestsStore } from "../stores/requests.js";
-import SearchIcon from "./icons/SearchIcon.vue";
-import DownloadIcon from "./icons/DownloadIcon.vue";
-import AlertIcon from "./icons/AlertIcon.vue";
+import { Search, Download, AlertTriangle } from "lucide-vue-next";
 
 const filtersStore = useFiltersStore();
 const requestsStore = useRequestsStore();

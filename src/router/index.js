@@ -1,8 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
-import DashboardView from "../pages/DashboardPage.vue";
-
-import RequestDetailView from "../pages/RequestDetailPage.vue";
-import ChartsView from "@/components/ChartsView.vue";
+import DashboardPage from "../pages/DashboardPage.vue";
+import RequestDetailPage from "../pages/RequestDetailPage.vue";
+import ChartsPage from "../pages/ChartsPage.vue";
 
 const routes = [
   {
@@ -12,19 +11,19 @@ const routes = [
   {
     path: "/dashboard",
     name: "dashboard",
-    component: DashboardView,
+    component: DashboardPage,
     meta: { title: "Support Requests Dashboard" },
   },
   {
     path: "/charts",
     name: "charts",
-    component: ChartsView,
+    component: ChartsPage,
     meta: { title: "Charts" },
   },
   {
     path: "/request/:id",
     name: "request-detail",
-    component: RequestDetailView,
+    component: RequestDetailPage,
     props: true,
     meta: { title: "Request Details" },
   },
