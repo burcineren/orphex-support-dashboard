@@ -9,7 +9,7 @@
     >
       <div class="flex justify-between items-center">
         <span class="text-sm text-gray-700">
-          Showing {{ filteredRequests.length }} of
+          Showing {{ paginatedData.length }} of
           {{ requestsStore.totalCount }} requests
           <span v-if="filtersStore.hasActiveFilters" class="ml-2 text-blue-600">
             ({{ filtersStore.activeFiltersCount }} filters active)
@@ -47,15 +47,6 @@
       v-else-if="filteredRequests.length === 0"
       class="text-center py-12 border-2 border-dashed border-gray-300 rounded-lg"
     >
-      <svg
-        class="mx-auto h-12 w-12 text-gray-400"
-        fill="none"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M9 20l-5.447-2.724A1 1 0 013 17.276V11h18v6.276a1 1 0 01-.553.894L15 20z"
-        />
-      </svg>
       <h3 class="mt-2 text-lg font-medium text-gray-900">No requests found</h3>
       <p class="mt-1 text-sm text-gray-500">
         {{
@@ -81,72 +72,51 @@
       </div>
     </div>
 
-    <!-- Table -->
-    <RequestsTable
-      v-else
-      :requests="paginatedRequests"
-      :page-size="pageSize"
-      :current-page="currentPage"
-      @open-detail="openDetail"
-      @next-page="nextPage"
-      @prev-page="prevPage"
-    />
+    <!-- Table and Pagination -->
+    <div v-else>
+      <RequestsTable :requests="paginatedData" @open-detail="openDetail" />
+      <PaginationControls
+        :current-page="currentPage"
+        :total-pages="totalPages"
+        :has-next-page="hasNextPage"
+        :has-prev-page="hasPrevPage"
+        @next-page="nextPage"
+        @prev-page="prevPage"
+      />
+    </div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
-import { useRequestsStore } from "../stores/requests";
-import { useFiltersStore } from "../stores/filters";
-import { useUIStore } from "../stores/ui";
-import FilterPanel from "../components/FilterPanel.vue";
-import RequestsTable from "../components/RequestsTable.vue";
+import { useRequestsStore } from "@/stores/requests";
+import { useFiltersStore } from "@/stores/filters";
+import { useUIStore } from "@/stores/ui";
+import { usePagination } from "@/composables/usePagination";
+import FilterPanel from "@/components/requests/FilterPanel.vue";
+import RequestsTable from "@/components/requests/RequestsTable.vue";
+import PaginationControls from "@/components/ui/PaginationControls.vue";
 
 const requestsStore = useRequestsStore();
 const filtersStore = useFiltersStore();
 const uiStore = useUIStore();
 
-const { loading, error, totalCount } = storeToRefs(requestsStore);
+const { loading, error } = storeToRefs(requestsStore);
 const { filteredRequests, hasActiveFilters, activeFiltersCount } =
   storeToRefs(filtersStore);
 
 const { retry, resetData } = requestsStore;
 const { resetFilters } = filtersStore;
 
-const pageSize = ref(10);
-const currentPage = ref(1);
-
-// Pagination
-const paginatedRequests = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value;
-  const end = start + pageSize.value;
-  return filteredRequests.value.slice(start, end);
-});
-
-const totalPages = computed(() =>
-  Math.ceil(filteredRequests.value.length / pageSize.value)
-);
-
-const hasNextPage = computed(() => currentPage.value < totalPages.value);
-const hasPrevPage = computed(() => currentPage.value > 1);
-
-// Pagination actions
-const nextPage = () => {
-  if (hasNextPage.value) currentPage.value++;
-};
-const prevPage = () => {
-  if (hasPrevPage.value) currentPage.value--;
-};
-
-// Reset page on filter change
-watch(
-  filteredRequests,
-  () => {
-    currentPage.value = 1;
-  },
-  { deep: true }
-);
+const {
+  currentPage,
+  totalPages,
+  paginatedData,
+  hasNextPage,
+  hasPrevPage,
+  nextPage,
+  prevPage,
+} = usePagination(filteredRequests, 20);
 
 const openDetail = (request) => {
   uiStore.openDetail(request.id);
