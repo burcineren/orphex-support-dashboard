@@ -89,9 +89,9 @@
 </template>
 
 <script setup>
-import StatusBadge from "./StatusBadge.vue";
-import PriorityBadge from "./PriorityBadge.vue";
-import AttentionBadges from "./AttentionBadges.vue";
+import StatusBadge from "../ui/StatusBadge.vue";
+import PriorityBadge from "../ui/PriorityBadge.vue";
+import AttentionBadges from "../ui/AttentionBadges.vue";
 
 defineProps({
   requests: {

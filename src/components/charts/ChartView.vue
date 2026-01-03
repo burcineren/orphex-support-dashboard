@@ -18,7 +18,7 @@
 <script setup>
 import { computed } from "vue";
 import { Chart as Highcharts } from "highcharts-vue";
-import { useRequestsStore } from "../stores/requests";
+import { useRequestsStore } from "@/stores/requests";
 
 const requestsStore = useRequestsStore();
 

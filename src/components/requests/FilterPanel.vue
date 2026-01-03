@@ -116,8 +116,8 @@
 </template>
 
 <script setup>
-import { useFiltersStore } from "../stores/filters.js";
-import { useRequestsStore } from "../stores/requests.js";
+import { useFiltersStore } from "@/stores/filters.js";
+import { useRequestsStore } from "@/stores/requests.js";
 import { Search, Download, AlertTriangle } from "lucide-vue-next";
 
 const filtersStore = useFiltersStore();

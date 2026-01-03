@@ -134,8 +134,8 @@
 
 <script setup>
 import { ref, computed, watch } from "vue";
-import { useRequestsStore } from "../stores/requests";
-import { useUIStore } from "../stores/ui";
+import { useRequestsStore } from "@/stores/requests";
+import { useUIStore } from "@/stores/ui";
 import { X } from "lucide-vue-next";
 
 const requestsStore = useRequestsStore();

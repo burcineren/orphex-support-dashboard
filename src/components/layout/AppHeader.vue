@@ -10,11 +10,7 @@
           </p>
         </div>
         <div class="flex gap-2">
-          <router-link
-            to="/dashboard"
-            custom
-            v-slot="{ navigate, isActive }"
-          >
+          <router-link to="/dashboard" custom v-slot="{ navigate, isActive }">
             <button
               @click="navigate"
               :class="[
@@ -27,11 +23,7 @@
               List View
             </button>
           </router-link>
-          <router-link
-            to="/charts"
-            custom
-            v-slot="{ navigate, isActive }"
-          >
+          <router-link to="/charts" custom v-slot="{ navigate, isActive }">
             <button
               @click="navigate"
               :class="[
@@ -51,8 +43,8 @@
 </template>
 
 <script setup>
-import { useRequestsStore } from "../stores/requests";
-import { useFiltersStore } from "../stores/filters";
+import { useRequestsStore } from "@/stores/requests";
+import { useFiltersStore } from "@/stores/filters";
 
 const requestsStore = useRequestsStore();
 const filtersStore = useFiltersStore();

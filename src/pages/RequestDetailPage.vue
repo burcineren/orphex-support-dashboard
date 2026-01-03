@@ -154,7 +154,7 @@
 <script setup>
 import { ref, computed, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { useRequestsStore } from "../stores/requests";
+import { useRequestsStore } from "@/stores/requests";
 import { ArrowLeft, AlertTriangle } from "lucide-vue-next";
 
 const router = useRouter();

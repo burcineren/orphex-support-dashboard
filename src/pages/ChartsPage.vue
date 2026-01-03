@@ -3,5 +3,5 @@
 </template>
 
 <script setup>
-import ChartView from "../components/ChartView.vue";
+import ChartView from "@/components/charts/ChartView.vue";
 </script>
