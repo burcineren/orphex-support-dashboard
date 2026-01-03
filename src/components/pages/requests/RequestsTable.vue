@@ -45,7 +45,7 @@
           <tr
             v-for="request in requests"
             :key="request.id"
-            @click="$emit('open-detail', request)"
+            @click="goToDetail(request.id)"
             :class="[
               'hover:bg-gray-50 cursor-pointer transition-colors',
               {
@@ -55,8 +55,8 @@
             ]"
             role="button"
             tabindex="0"
-            @keydown.enter="$emit('open-detail', request)"
-            @keydown.space.prevent="$emit('open-detail', request)"
+            @keydown.enter="goToDetail(request.id)"
+            @keydown.space.prevent="goToDetail(request.id)"
           >
             <td class="px-6 py-4 text-sm font-medium text-gray-900">
               {{ request.id }}
@@ -89,9 +89,12 @@
 </template>
 
 <script setup>
+import { useRouter } from "vue-router";
 import PriorityBadge from "@/components/ui/PriorityBadge.vue";
 import AttentionBadges from "@/components/ui/AttentionBadges.vue";
 import StatusBadge from "@/components/ui/StatusBadge.vue";
+
+const router = useRouter();
 
 defineProps({
   requests: {
@@ -100,7 +103,9 @@ defineProps({
   },
 });
 
-defineEmits(["open-detail"]);
+const goToDetail = (id) => {
+  router.push(`/request/${id}`);
+};
 
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("tr-TR", {

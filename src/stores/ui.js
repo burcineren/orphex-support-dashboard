@@ -6,8 +6,6 @@ export const useUIStore = defineStore("ui", () => {
   // STATE
   // ========================================
   const activeView = ref("list"); // 'list' | 'chart'
-  const selectedRequestId = ref(null);
-  const isDetailModalOpen = ref(false);
   const isSidebarOpen = ref(true);
 
   // ========================================
@@ -30,18 +28,6 @@ export const useUIStore = defineStore("ui", () => {
     activeView.value = activeView.value === "list" ? "chart" : "list";
   };
 
-  const openDetail = (requestId) => {
-    selectedRequestId.value = requestId;
-    isDetailModalOpen.value = true;
-  };
-
-  const closeDetail = () => {
-    isDetailModalOpen.value = false;
-    setTimeout(() => {
-      selectedRequestId.value = null;
-    }, 300);
-  };
-
   const toggleSidebar = () => {
     isSidebarOpen.value = !isSidebarOpen.value;
   };
@@ -49,8 +35,6 @@ export const useUIStore = defineStore("ui", () => {
   return {
     // State
     activeView,
-    selectedRequestId,
-    isDetailModalOpen,
     isSidebarOpen,
 
     // Getters
@@ -60,8 +44,6 @@ export const useUIStore = defineStore("ui", () => {
     // Actions
     setActiveView,
     toggleView,
-    openDetail,
-    closeDetail,
     toggleSidebar,
   };
 });

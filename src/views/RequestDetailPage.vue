@@ -31,13 +31,13 @@
       </div>
 
       <!-- Request Detail Card -->
-      <!-- <RequestDetailCard
+      <RequestDetailCard
         v-else
         :request="request"
         @save="handleSave"
         @add-comment="handleAddComment"
         @cancel="router.back()"
-      /> -->
+      />
     </div>
   </div>
 </template>

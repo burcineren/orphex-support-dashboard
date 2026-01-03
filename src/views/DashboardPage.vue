@@ -39,7 +39,7 @@
 
     <!-- Table and Pagination -->
     <div v-else>
-      <RequestsTable :requests="paginatedData" @open-detail="openDetail" />
+      <RequestsTable :requests="paginatedData" />
       <PaginationControls
         :current-page="currentPage"
         :total-pages="totalPages"
@@ -56,7 +56,6 @@
 import { storeToRefs } from "pinia";
 import { useRequestsStore } from "@/stores/requests";
 import { useFiltersStore } from "@/stores/filters";
-import { useUIStore } from "@/stores/ui";
 import { usePagination } from "@/composables/usePagination";
 import FilterPanel from "@/components/pages/requests/FilterPanel.vue";
 import RequestsTable from "@/components/pages/requests/RequestsTable.vue";
@@ -65,7 +64,6 @@ import StateDisplay from "@/components/ui/StateDisplay.vue";
 
 const requestsStore = useRequestsStore();
 const filtersStore = useFiltersStore();
-const uiStore = useUIStore();
 
 const { loading, error } = storeToRefs(requestsStore);
 const { filteredRequests, hasActiveFilters } = storeToRefs(filtersStore);
@@ -82,8 +80,4 @@ const {
   nextPage,
   prevPage,
 } = usePagination(filteredRequests, 20);
-
-const openDetail = (request) => {
-  uiStore.openDetail(request.id);
-};
 </script>
