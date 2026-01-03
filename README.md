@@ -72,24 +72,31 @@ orphex-support-dashboard/
 ├── src/
 │   ├── assets/              # Static assets
 │   ├── components/          # Vue components
-│   │   ├── AppHeader.vue    # Header with view toggle
-│   │   ├── FilterPanel.vue  # Search & filter controls
-│   │   ├── RequestsTable.vue # Main data table
-│   │   ├── RequestDetail.vue # Modal for editing
-│   │   ├── ChartView.vue    # Highcharts visualizations
-│   │   ├── LoadingState.vue # Loading indicator
-│   │   ├── ErrorState.vue   # Error handling UI
-│   │   ├── StatusBadge.vue  # Status display
-│   │   ├── PriorityBadge.vue # Priority display
-│   │   ├── AttentionBadges.vue # Alert indicators
-│   │   └── icons/           # SVG icon components
+│   │   ├── charts/
+│   │   │   └── ChartView.vue
+│   │   ├── layout/
+│   │   │   └── AppHeader.vue
+│   │   ├── requests/
+│   │   │   ├── FilterPanel.vue
+│   │   │   ├── RequestDetail.vue
+│   │   │   ├── RequestDetailCard.vue
+│   │   │   └── RequestsTable.vue
+│   │   └── ui/
+│   │       ├── AttentionBadges.vue
+│   │       ├── PaginationControls.vue
+│   │       ├── PriorityBadge.vue
+│   │       ├── StateDisplay.vue
+│   │       └── StatusBadge.vue
+│   ├── composables/         # Reusable composition functions
+│   │   └── usePagination.js
 │   ├── stores/              # Pinia state management
 │   │   ├── requests.js      # Request CRUD operations
 │   │   ├── filters.js       # Filter & search logic
 │   │   └── ui.js            # UI state (modals, views)
 │   ├── pages/               # Route views
-│   │   ├── DashboardView.vue # Main dashboard
-│   │   └── RequestDetailView.vue # Detail page
+│   │   ├── DashboardPage.vue # Main dashboard
+│   │   ├── RequestDetailPage.vue # Detail page
+│   │   └── ChartsPage.vue
 │   ├── router/              # Vue Router configuration
 │   │   └── index.js         # Route definitions
 │   ├── utils/               # Utility functions

@@ -57,16 +57,18 @@ const props = defineProps({
   id: String,
 });
 
+const requestId = computed(() => props.id || route.params.id);
+
 const request = computed(() => {
-  return requestsStore.getRequestById(props.id || route.params.id);
+  return requestsStore.getRequestById(requestId.value);
 });
 
 const handleSave = (updates) => {
-  requestsStore.updateRequest(props.id || route.params.id, updates);
+  requestsStore.updateRequest(requestId.value, updates);
   router.back();
 };
 
 const handleAddComment = (comment) => {
-  requestsStore.addComment(props.id || route.params.id, comment);
+  requestsStore.addComment(requestId.value, comment);
 };
 </script>
