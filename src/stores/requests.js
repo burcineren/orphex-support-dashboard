@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref, computed, watch } from "vue";
-import { generateMockData, calculateNeedsAttention } from "../utils/dataUtils";
+import { generateMockData } from "@/composables/useSupportData.js";
+import { calculateNeedsAttention } from "@/composables/useSupportData.js";
 
 export const useRequestsStore = defineStore("requests", () => {
   // ========================================
@@ -11,7 +12,7 @@ export const useRequestsStore = defineStore("requests", () => {
   const error = ref(null);
 
   // ========================================
-  // GETTERS
+  // GETTERS (Computed)
   // ========================================
   const totalCount = computed(() => requests.value.length);
 
@@ -21,9 +22,7 @@ export const useRequestsStore = defineStore("requests", () => {
 
   const requestsByStatus = computed(() => {
     return requests.value.reduce((acc, request) => {
-      if (!acc[request.status]) {
-        acc[request.status] = [];
-      }
+      if (!acc[request.status]) acc[request.status] = [];
       acc[request.status].push(request);
       return acc;
     }, {});
@@ -31,9 +30,7 @@ export const useRequestsStore = defineStore("requests", () => {
 
   const requestsByPriority = computed(() => {
     return requests.value.reduce((acc, request) => {
-      if (!acc[request.priority]) {
-        acc[request.priority] = [];
-      }
+      if (!acc[request.priority]) acc[request.priority] = [];
       acc[request.priority].push(request);
       return acc;
     }, {});
@@ -53,34 +50,46 @@ export const useRequestsStore = defineStore("requests", () => {
     }, {});
   });
 
+  // Yeni attention hesaplaması (composable'dan gelen fonksiyonla)
   const needsAttentionRequests = computed(() => {
-    return requests.value.filter(
-      (r) => calculateNeedsAttention(r).needsAttention
-    );
+    return requests.value
+      .map((r) => ({ ...r, attention: calculateNeedsAttention(r) }))
+      .filter((r) => r.attention.needsAttention);
+  });
+
+  const requestsWithAttention = computed(() => {
+    return requests.value.map((r) => ({
+      ...r,
+      attention: calculateNeedsAttention(r),
+    }));
   });
 
   // ========================================
   // ACTIONS
   // ========================================
-
   const initData = async () => {
     loading.value = true;
     error.value = null;
 
     try {
+      // Fake loading delay
       await new Promise((resolve) => setTimeout(resolve, 500));
 
+      // LocalStorage'dan yükle
       const stored = localStorage.getItem("orphex_requests");
 
       if (stored) {
         requests.value = JSON.parse(stored);
       } else {
-        requests.value = generateMockData();
+        // Yeni generateMockData kullan
+        requests.value = generateMockData(25, 123);
         saveToLocalStorage();
       }
     } catch (e) {
       error.value = "Failed to load data. Please try again.";
       console.error("Data initialization error:", e);
+      // Fallback mock data
+      requests.value = generateMockData(25, 123);
     } finally {
       loading.value = false;
     }
@@ -112,13 +121,8 @@ export const useRequestsStore = defineStore("requests", () => {
     return true;
   };
 
-  const updateStatus = (id, status) => {
-    return updateRequest(id, { status });
-  };
-
-  const updatePriority = (id, priority) => {
-    return updateRequest(id, { priority });
-  };
+  const updateStatus = (id, status) => updateRequest(id, { status });
+  const updatePriority = (id, priority) => updateRequest(id, { priority });
 
   const addComment = (id, commentText) => {
     const index = requests.value.findIndex((r) => r.id === id);
@@ -129,7 +133,9 @@ export const useRequestsStore = defineStore("requests", () => {
     }
 
     const comment = {
+      id: `comment-${Date.now()}`,
       text: commentText,
+      author: "Current User",
       date: new Date().toISOString(),
     };
 
@@ -164,23 +170,22 @@ export const useRequestsStore = defineStore("requests", () => {
       updatedAt: new Date().toISOString(),
       lastCommentAt: null,
       comments: [],
+      tags: [],
       ...requestData,
     };
 
-    requests.value.push(newRequest);
+    requests.value.unshift(newRequest);
     saveToLocalStorage();
     return newRequest;
   };
 
-  const retry = () => {
-    return initData();
-  };
-
-  const resetData = () => {
-    requests.value = generateMockData();
+  const regenerateData = () => {
+    requests.value = generateMockData(25, Date.now());
     saveToLocalStorage();
   };
 
+  const retry = () => initData();
+  const resetData = regenerateData;
   const clearData = () => {
     requests.value = [];
     localStorage.removeItem("orphex_requests");
@@ -189,14 +194,7 @@ export const useRequestsStore = defineStore("requests", () => {
   // ========================================
   // WATCHERS
   // ========================================
-
-  watch(
-    requests,
-    () => {
-      saveToLocalStorage();
-    },
-    { deep: true }
-  );
+  watch(requests, saveToLocalStorage, { deep: true });
 
   // ========================================
   // INITIALIZATION
@@ -205,7 +203,8 @@ export const useRequestsStore = defineStore("requests", () => {
 
   return {
     // State
-    requests,
+    requests: requestsWithAttention,
+    rawRequests: requests,
     loading,
     error,
 
@@ -226,6 +225,7 @@ export const useRequestsStore = defineStore("requests", () => {
     addComment,
     deleteRequest,
     createRequest,
+    regenerateData,
     retry,
     resetData,
     clearData,

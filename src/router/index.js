@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
-import DashboardView from "../pages/DashboardView.vue";
+import DashboardView from "../pages/DashboardPage.vue";
 
-import RequestDetailView from "../pages/RequestDetailView.vue";
+import RequestDetailView from "../pages/RequestDetailPage.vue";
 import ChartsView from "@/components/ChartsView.vue";
 
 const routes = [
