@@ -50,7 +50,7 @@ export const useRequestsStore = defineStore("requests", () => {
     }, {});
   });
 
-  // Yeni attention hesaplaması (composable'dan gelen fonksiyonla)
+  // New computed property for requests that need attention
   const needsAttentionRequests = computed(() => {
     return requests.value
       .map((r) => ({ ...r, attention: calculateNeedsAttention(r) }))
@@ -75,13 +75,13 @@ export const useRequestsStore = defineStore("requests", () => {
       // Fake loading delay
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      // LocalStorage'dan yükle
+      // Upload from LocalStorage
       const stored = localStorage.getItem("orphex_requests");
 
       if (stored) {
         requests.value = JSON.parse(stored);
       } else {
-        // Yeni generateMockData kullan
+        // Upload from LocalStorage failed, generate mock data
         requests.value = generateMockData(25, 123);
         saveToLocalStorage();
       }

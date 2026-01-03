@@ -31,13 +31,13 @@
       </div>
 
       <!-- Request Detail Card -->
-      <RequestDetailCard
+      <!-- <RequestDetailCard
         v-else
         :request="request"
         @save="handleSave"
         @add-comment="handleAddComment"
         @cancel="router.back()"
-      />
+      /> -->
     </div>
   </div>
 </template>
@@ -47,7 +47,7 @@ import { computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useRequestsStore } from "@/stores/requests";
 import { ArrowLeft, AlertTriangle } from "lucide-vue-next";
-import RequestDetailCard from "@/components/requests/RequestDetailCard.vue";
+import RequestDetailCard from "@/components/pages/requests/RequestDetailCard.vue";
 
 const router = useRouter();
 const route = useRoute();

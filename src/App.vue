@@ -16,8 +16,8 @@
 
 <script setup>
 import { useUIStore } from "./stores/ui";
-import AppHeader from "./components/layout/AppHeader.vue";
-import RequestDetail from "./components/requests/RequestDetail.vue";
+import AppHeader from "./layouts/AppHeader.vue";
+import RequestDetail from "./components/pages/requests/RequestDetail.vue";
 
 const uiStore = useUIStore();
 </script>

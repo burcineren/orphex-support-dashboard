@@ -2,7 +2,7 @@
 
 A modern Vue 3 application for managing and visualizing support requests with advanced filtering, routing, state management, and comprehensive testing.
 
-![Vue 3](https://img.shields.io/badge/Vue-3.3.4-4FC08D?logo=vue.js)
+![Vue 3](https://img.shields.io/badge/Vue-3.3.0-4FC08D?logo=vue.js)
 ![Pinia](https://img.shields.io/badge/Pinia-2.1.7-FFD859)
 ![Vitest](https://img.shields.io/badge/Vitest-0.34-6E9F18)
 ![Highcharts](https://img.shields.io/badge/Highcharts-11.2.0-8087E8)
@@ -72,15 +72,14 @@ orphex-support-dashboard/
 ├── src/
 │   ├── assets/              # Static assets
 │   ├── components/          # Vue components
-│   │   ├── charts/
-│   │   │   └── ChartView.vue
-│   │   ├── layout/
-│   │   │   └── AppHeader.vue
-│   │   ├── requests/
-│   │   │   ├── FilterPanel.vue
-│   │   │   ├── RequestDetail.vue
-│   │   │   ├── RequestDetailCard.vue
-│   │   │   └── RequestsTable.vue
+│   │   ├── pages/
+│   │   │   ├── charts/
+│   │   │   │   └── ChartView.vue
+│   │   │   ├── requests/
+│   │   │   │   ├── FilterPanel.vue
+│   │   │   │   ├── RequestDetail.vue
+│   │   │   │   ├── RequestDetailCard.vue
+│   │   │   │   └── RequestsTable.vue
 │   │   └── ui/
 │   │       ├── AttentionBadges.vue
 │   │       ├── PaginationControls.vue
@@ -88,20 +87,25 @@ orphex-support-dashboard/
 │   │       ├── StateDisplay.vue
 │   │       └── StatusBadge.vue
 │   ├── composables/         # Reusable composition functions
-│   │   └── usePagination.js
+│   │   └── usePagination.js # Pagination logic
+│   │   └── useSupportData.js # Support data handling
+│   │   └── useSupportData.test.js # Support data handling tests
+│   │── layouts/
+│   │   └── AppHeader.vue    # Main application header
+│   │── constants/
+│   │   └── support.js    # Support constants and configurations
 │   ├── stores/              # Pinia state management
 │   │   ├── requests.js      # Request CRUD operations
 │   │   ├── filters.js       # Filter & search logic
 │   │   └── ui.js            # UI state (modals, views)
-│   ├── pages/               # Route views
+│   ├── views/               # Route views
 │   │   ├── DashboardPage.vue # Main dashboard
 │   │   ├── RequestDetailPage.vue # Detail page
 │   │   └── ChartsPage.vue
 │   ├── router/              # Vue Router configuration
 │   │   └── index.js         # Route definitions
 │   ├── utils/               # Utility functions
-│   │   ├── dataUtils.js     # Data generation & logic
-│   │   └── dataUtils.test.js # Unit tests
+│   │   └── random.js        # Random data generation
 │   ├── App.vue              # Root component
 │   ├── main.js              # Application entry point
 │   └── style.css            # Global styles (Tailwind)
@@ -472,10 +476,10 @@ Current coverage: **95%+ for business logic**
 
 ```
 ------------------------|---------|----------|---------|---------|
-File                    | % Stmts | % Branch | % Funcs | % Lines |
-------------------------|---------|----------|---------|---------|
-dataUtils.js           |   95.83 |    91.66 |     100 |   95.65 |
-------------------------|---------|----------|---------|---------|
+| File                     | % Stmts   | % Branch   | % Funcs   | % Lines   |
+| ------------------------ | --------- | ---------- | --------- | --------- |
+| dataUtils.js             | 95.83     | 91.66      | 100       | 95.65     |
+| ------------------------ | --------- | ---------- | --------- | --------- |
 ```
 
 ### Test Structure
@@ -564,13 +568,13 @@ it('should flag high priority requests', () => {
 
 The application supports the following query parameters for shareable URLs:
 
-| Parameter   | Type    | Example                    | Description                    |
-|-------------|---------|----------------------------|--------------------------------|
-| `search`    | string  | `?search=login`            | Search term                    |
-| `status`    | string  | `?status=New`              | Filter by status               |
-| `priority`  | string  | `?priority=High`           | Filter by priority             |
-| `sort`      | string  | `?sort=oldest`             | Sort order (newest/oldest)     |
-| `attention` | boolean | `?attention=true`          | Show only "Needs Attention"    |
+| Parameter   | Type    | Example           | Description                 |
+| ----------- | ------- | ----------------- | --------------------------- |
+| `search`    | string  | `?search=login`   | Search term                 |
+| `status`    | string  | `?status=New`     | Filter by status            |
+| `priority`  | string  | `?priority=High`  | Filter by priority          |
+| `sort`      | string  | `?sort=oldest`    | Sort order (newest/oldest)  |
+| `attention` | boolean | `?attention=true` | Show only "Needs Attention" |
 
 **Example URL:**
 ```
