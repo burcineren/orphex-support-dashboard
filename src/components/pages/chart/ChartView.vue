@@ -16,9 +16,9 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
-import { Chart as Highcharts } from "highcharts-vue";
-import { useRequestsStore } from "@/stores/requests";
+import { computed } from 'vue';
+import { Chart as Highcharts } from 'highcharts-vue';
+import { useRequestsStore } from '@/stores/requests';
 
 const requestsStore = useRequestsStore();
 
@@ -29,23 +29,23 @@ const statusChartOptions = computed(() => {
   }));
 
   return {
-    chart: { type: "column" },
+    chart: { type: 'column' },
     title: { text: null },
     xAxis: {
-      type: "category",
-      labels: { style: { fontSize: "12px" } },
+      type: 'category',
+      labels: { style: { fontSize: '12px' } },
     },
     yAxis: {
       min: 0,
-      title: { text: "Number of Requests" },
+      title: { text: 'Number of Requests' },
     },
     legend: { enabled: false },
     series: [
       {
-        name: "Requests",
+        name: 'Requests',
         data,
         colorByPoint: true,
-        colors: ["#3B82F6", "#EAB308", "#F97316", "#10B981"],
+        colors: ['#3B82F6', '#EAB308', '#F97316', '#10B981'],
       },
     ],
     credits: { enabled: false },
@@ -58,26 +58,26 @@ const priorityChartOptions = computed(() => {
   );
 
   return {
-    chart: { type: "pie" },
+    chart: { type: 'pie' },
     title: { text: null },
     tooltip: {
-      pointFormat: "<b>{point.y}</b> requests ({point.percentage:.1f}%)",
+      pointFormat: '<b>{point.y}</b> requests ({point.percentage:.1f}%)',
     },
     plotOptions: {
       pie: {
         allowPointSelect: true,
-        cursor: "pointer",
+        cursor: 'pointer',
         dataLabels: {
           enabled: true,
-          format: "<b>{point.name}</b>: {point.y}",
+          format: '<b>{point.name}</b>: {point.y}',
         },
       },
     },
     series: [
       {
-        name: "Priority",
+        name: 'Priority',
         data,
-        colors: ["#10B981", "#3B82F6", "#EF4444"],
+        colors: ['#10B981', '#3B82F6', '#EF4444'],
       },
     ],
     credits: { enabled: false },

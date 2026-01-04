@@ -11,11 +11,11 @@ const props = defineProps({
 
 const getBadgeClass = () => {
   const classes = {
-    New: "bg-blue-100 text-blue-700",
-    "In Progress": "bg-yellow-100 text-yellow-700",
-    "Waiting on Customer": "bg-orange-100 text-orange-700",
-    Done: "bg-green-100 text-green-700",
+    New: 'bg-blue-100 text-blue-700',
+    'In Progress': 'bg-yellow-100 text-yellow-700',
+    'Waiting on Customer': 'bg-orange-100 text-orange-700',
+    Done: 'bg-green-100 text-green-700',
   };
-  return classes[props.status] || "";
+  return classes[props.status] || '';
 };
 </script>

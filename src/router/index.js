@@ -1,36 +1,36 @@
-import { createRouter, createWebHistory } from "vue-router";
-import DashboardPage from "@/views/DashboardPage.vue";
-import RequestDetailPage from "@/views/RequestDetailPage.vue";
-import ChartsPage from "@/views/ChartsPage.vue";
+import { createRouter, createWebHistory } from 'vue-router';
+import DashboardPage from '@/views/DashboardPage.vue';
+import RequestDetailPage from '@/views/RequestDetailPage.vue';
+import ChartsPage from '@/views/ChartsPage.vue';
 
 const routes = [
   {
-    path: "/",
-    redirect: "/dashboard",
+    path: '/',
+    redirect: '/dashboard',
   },
   {
-    path: "/dashboard",
-    name: "dashboard",
+    path: '/dashboard',
+    name: 'dashboard',
     component: DashboardPage,
-    meta: { title: "Support Requests Dashboard" },
+    meta: { title: 'Support Requests Dashboard' },
   },
   {
-    path: "/charts",
-    name: "charts",
+    path: '/charts',
+    name: 'charts',
     component: ChartsPage,
-    meta: { title: "Charts" },
+    meta: { title: 'Charts' },
   },
   {
-    path: "/request/:id",
-    name: "request-detail",
+    path: '/request/:id',
+    name: 'request-detail',
     component: RequestDetailPage,
     props: true,
-    meta: { title: "Request Details" },
+    meta: { title: 'Request Details' },
   },
   {
-    path: "/:pathMatch(.*)*",
-    name: "not-found",
-    redirect: "/",
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    redirect: '/',
   },
 ];
 
@@ -40,7 +40,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title || "Orphex Dashboard";
+  document.title = to.meta.title || 'Orphex Dashboard';
   next();
 });
 

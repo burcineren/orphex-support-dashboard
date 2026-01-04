@@ -11,9 +11,9 @@ const props = defineProps({
 
 const getBadgeClass = () => {
   const classes = {
-    Low: "bg-gray-100 text-gray-700",
-    Medium: "bg-blue-100 text-blue-700",
-    High: "bg-red-100 text-red-700",
+    Low: 'bg-gray-100 text-gray-700',
+    Medium: 'bg-blue-100 text-blue-700',
+    High: 'bg-red-100 text-red-700',
   };
   return classes[props.priority];
 };

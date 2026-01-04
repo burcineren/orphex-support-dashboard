@@ -1,19 +1,19 @@
-import { ref, computed } from "vue";
-import { faker } from "@faker-js/faker";
-import dayjs from "dayjs";
+import { ref, computed } from 'vue';
+import { faker } from '@faker-js/faker';
+import dayjs from 'dayjs';
 import {
   setRandomSeed,
   getRandomElement,
   getRandomTags,
   getRandomInt,
-} from "@/utils/random";
+} from '@/utils/random';
 import {
   STATUSES,
   PRIORITIES,
   MAX_DAYS_AGO,
   DAYS_SINCE_ACTIVITY_THRESHOLD,
   DAYS_AGING_THRESHOLD,
-} from "@/constants/support.js";
+} from '@/constants/support.js';
 
 // Faker seed for reproducible data
 faker.seed(123);
@@ -23,18 +23,18 @@ export const generateMockData = (count = 25, seed = Date.now()) => {
 
   return Array.from({ length: count }, (_, i) => {
     const daysAgo = getRandomInt(0, MAX_DAYS_AGO);
-    const createdAt = dayjs().subtract(daysAgo, "day").toISOString();
+    const createdAt = dayjs().subtract(daysAgo, 'day').toISOString();
 
     const updatedDaysAgo = getRandomInt(0, daysAgo);
-    const updatedAt = dayjs().subtract(updatedDaysAgo, "day").toISOString();
+    const updatedAt = dayjs().subtract(updatedDaysAgo, 'day').toISOString();
 
     const hasComment = getRandomInt(0, 10) > 3;
     const lastCommentAt = hasComment
-      ? dayjs().subtract(getRandomInt(0, updatedDaysAgo), "day").toISOString()
+      ? dayjs().subtract(getRandomInt(0, updatedDaysAgo), 'day').toISOString()
       : null;
 
     return {
-      id: `REQ-${String(i + 1).padStart(4, "0")}`,
+      id: `REQ-${String(i + 1).padStart(4, '0')}`,
       title: faker.lorem.sentence({ min: 4, max: 8 }),
       customer: faker.company.name(),
       status: getRandomElement(STATUSES.map((s) => s.label)),
@@ -42,14 +42,14 @@ export const generateMockData = (count = 25, seed = Date.now()) => {
       createdAt,
       updatedAt,
       lastCommentAt,
-      tags: getRandomTags(["bug", "feature", "urgent", "api", "billing"]),
+      tags: getRandomTags(['bug', 'feature', 'urgent', 'api', 'billing']),
       comments: [],
     };
   });
 };
 
 export const calculateNeedsAttention = (request) => {
-  if (request.status === "Done") {
+  if (request.status === 'Done') {
     return { needsAttention: false, reasons: [] };
   }
 
@@ -63,24 +63,24 @@ export const calculateNeedsAttention = (request) => {
   const lastActivity =
     lastComment && lastComment.isAfter(updated) ? lastComment : updated;
 
-  const daysSinceCreation = now.diff(created, "day");
-  const daysSinceActivity = now.diff(lastActivity, "day");
+  const daysSinceCreation = now.diff(created, 'day');
+  const daysSinceActivity = now.diff(lastActivity, 'day');
 
   const reasons = [];
   let needsAttention = false;
 
-  if (request.priority === "High") {
-    reasons.push("High priority");
+  if (request.priority === 'High') {
+    reasons.push('High priority');
     needsAttention = true;
   }
 
   if (daysSinceCreation > DAYS_AGING_THRESHOLD) {
-    reasons.push("Aging request");
+    reasons.push('Aging request');
     needsAttention = true;
   }
 
   if (daysSinceActivity > DAYS_SINCE_ACTIVITY_THRESHOLD) {
-    reasons.push("No recent activity");
+    reasons.push('No recent activity');
     needsAttention = true;
   }
 

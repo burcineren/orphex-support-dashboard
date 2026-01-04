@@ -1,20 +1,20 @@
-import { defineStore } from "pinia";
-import { ref, computed, watch } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import { useRequestsStore } from "./requests.js";
+import { defineStore } from 'pinia';
+import { ref, computed, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { useRequestsStore } from './requests.js';
 
-export const useFiltersStore = defineStore("filters", () => {
+export const useFiltersStore = defineStore('filters', () => {
   const router = useRouter();
   const route = useRoute();
 
   // ========================================
   // STATE
   // ========================================
-  const searchTerm = ref(route.query.search || "");
-  const statusFilter = ref(route.query.status || "All");
-  const priorityFilter = ref(route.query.priority || "All");
-  const sortOrder = ref(route.query.sort || "newest");
-  const showNeedsAttention = ref(route.query.attention === "true");
+  const searchTerm = ref(route.query.search || '');
+  const statusFilter = ref(route.query.status || 'All');
+  const priorityFilter = ref(route.query.priority || 'All');
+  const sortOrder = ref(route.query.sort || 'newest');
+  const showNeedsAttention = ref(route.query.attention === 'true');
 
   // ========================================
   // URL SYNC
@@ -25,10 +25,10 @@ export const useFiltersStore = defineStore("filters", () => {
       const query = {};
 
       if (searchTerm.value) query.search = searchTerm.value;
-      if (statusFilter.value !== "All") query.status = statusFilter.value;
-      if (priorityFilter.value !== "All") query.priority = priorityFilter.value;
-      if (sortOrder.value !== "newest") query.sort = sortOrder.value;
-      if (showNeedsAttention.value) query.attention = "true";
+      if (statusFilter.value !== 'All') query.status = statusFilter.value;
+      if (priorityFilter.value !== 'All') query.priority = priorityFilter.value;
+      if (sortOrder.value !== 'newest') query.sort = sortOrder.value;
+      if (showNeedsAttention.value) query.attention = 'true';
 
       router.replace({ query });
     },
@@ -55,12 +55,12 @@ export const useFiltersStore = defineStore("filters", () => {
     }
 
     // Status filter
-    if (statusFilter.value !== "All") {
+    if (statusFilter.value !== 'All') {
       filtered = filtered.filter((r) => r.status === statusFilter.value);
     }
 
     // Priority filter
-    if (priorityFilter.value !== "All") {
+    if (priorityFilter.value !== 'All') {
       filtered = filtered.filter((r) => r.priority === priorityFilter.value);
     }
 
@@ -73,7 +73,7 @@ export const useFiltersStore = defineStore("filters", () => {
     return [...filtered].sort((a, b) => {
       const dateA = new Date(a.createdAt);
       const dateB = new Date(b.createdAt);
-      return sortOrder.value === "newest" ? dateB - dateA : dateA - dateB;
+      return sortOrder.value === 'newest' ? dateB - dateA : dateA - dateB;
     });
   });
 
@@ -81,21 +81,21 @@ export const useFiltersStore = defineStore("filters", () => {
 
   const hasActiveFilters = computed(() => {
     return (
-      searchTerm.value !== "" ||
-      statusFilter.value !== "All" ||
-      priorityFilter.value !== "All" ||
+      searchTerm.value !== '' ||
+      statusFilter.value !== 'All' ||
+      priorityFilter.value !== 'All' ||
       showNeedsAttention.value ||
-      sortOrder.value !== "newest"
+      sortOrder.value !== 'newest'
     );
   });
 
   const activeFiltersCount = computed(() => {
     let count = 0;
     if (searchTerm.value) count++;
-    if (statusFilter.value !== "All") count++;
-    if (priorityFilter.value !== "All") count++;
+    if (statusFilter.value !== 'All') count++;
+    if (priorityFilter.value !== 'All') count++;
     if (showNeedsAttention.value) count++;
-    if (sortOrder.value !== "newest") count++;
+    if (sortOrder.value !== 'newest') count++;
     return count;
   });
 
@@ -123,24 +123,24 @@ export const useFiltersStore = defineStore("filters", () => {
   };
 
   const resetFilters = () => {
-    searchTerm.value = "";
-    statusFilter.value = "All";
-    priorityFilter.value = "All";
-    sortOrder.value = "newest";
+    searchTerm.value = '';
+    statusFilter.value = 'All';
+    priorityFilter.value = 'All';
+    sortOrder.value = 'newest';
     showNeedsAttention.value = false;
   };
 
   const exportCSV = () => {
     const headers = [
-      "ID",
-      "Title",
-      "Customer",
-      "Status",
-      "Priority",
-      "Created",
-      "Updated",
-      "Needs Attention",
-      "Reasons",
+      'ID',
+      'Title',
+      'Customer',
+      'Status',
+      'Priority',
+      'Created',
+      'Updated',
+      'Needs Attention',
+      'Reasons',
     ];
 
     const rows = filteredRequests.value.map((r) => [
@@ -149,21 +149,21 @@ export const useFiltersStore = defineStore("filters", () => {
       r.customer,
       r.status,
       r.priority,
-      new Date(r.createdAt).toLocaleDateString("tr-TR"),
-      new Date(r.updatedAt).toLocaleDateString("tr-TR"),
-      r.attention?.needsAttention ? "YES" : "NO",
-      `"${(r.attention?.reasons || []).join("; ")}"`,
+      new Date(r.createdAt).toLocaleDateString('tr-TR'),
+      new Date(r.updatedAt).toLocaleDateString('tr-TR'),
+      r.attention?.needsAttention ? 'YES' : 'NO',
+      `"${(r.attention?.reasons || []).join('; ')}"`,
     ]);
 
-    const csv = [headers, ...rows].map((row) => row.join(",")).join("\n");
+    const csv = [headers, ...rows].map((row) => row.join(',')).join('\n');
 
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
+    const link = document.createElement('a');
 
     link.href = url;
     link.download = `support-requests-${
-      new Date().toISOString().split("T")[0]
+      new Date().toISOString().split('T')[0]
     }.csv`;
     link.click();
     URL.revokeObjectURL(url);

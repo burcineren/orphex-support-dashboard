@@ -43,11 +43,11 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import { useRequestsStore } from "@/stores/requests";
-import { ArrowLeft, AlertTriangle } from "lucide-vue-next";
-import RequestDetailCard from "@/components/pages/requests/RequestDetailCard.vue";
+import { computed } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { useRequestsStore } from '@/stores/requests';
+import { ArrowLeft, AlertTriangle } from 'lucide-vue-next';
+import RequestDetailCard from '@/components/pages/requests/RequestDetailCard.vue';
 
 const router = useRouter();
 const route = useRoute();

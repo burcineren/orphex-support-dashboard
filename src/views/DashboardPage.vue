@@ -53,14 +53,14 @@
 </template>
 
 <script setup>
-import { storeToRefs } from "pinia";
-import { useRequestsStore } from "@/stores/requests";
-import { useFiltersStore } from "@/stores/filters";
-import { usePagination } from "@/composables/usePagination";
-import FilterPanel from "@/components/pages/requests/FilterPanel.vue";
-import RequestsTable from "@/components/pages/requests/RequestsTable.vue";
-import PaginationControls from "@/components/ui/PaginationControls.vue";
-import StateDisplay from "@/components/ui/StateDisplay.vue";
+import { storeToRefs } from 'pinia';
+import { useRequestsStore } from '@/stores/requests';
+import { useFiltersStore } from '@/stores/filters';
+import { usePagination } from '@/composables/usePagination';
+import FilterPanel from '@/components/pages/requests/FilterPanel.vue';
+import RequestsTable from '@/components/pages/requests/RequestsTable.vue';
+import PaginationControls from '@/components/ui/PaginationControls.vue';
+import StateDisplay from '@/components/ui/StateDisplay.vue';
 
 const requestsStore = useRequestsStore();
 const filtersStore = useFiltersStore();

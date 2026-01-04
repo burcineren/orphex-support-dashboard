@@ -32,5 +32,5 @@ defineProps({
   hasPrevPage: Boolean,
 });
 
-defineEmits(["prev-page", "next-page"]);
+defineEmits(['prev-page', 'next-page']);
 </script>

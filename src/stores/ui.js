@@ -1,31 +1,31 @@
-import { defineStore } from "pinia";
-import { ref } from "vue";
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
-export const useUIStore = defineStore("ui", () => {
+export const useUIStore = defineStore('ui', () => {
   // ========================================
   // STATE
   // ========================================
-  const activeView = ref("list"); // 'list' | 'chart'
+  const activeView = ref('list'); // 'list' | 'chart'
   const isSidebarOpen = ref(true);
 
   // ========================================
   // GETTERS
   // ========================================
-  const isListView = () => activeView.value === "list";
-  const isChartView = () => activeView.value === "chart";
+  const isListView = () => activeView.value === 'list';
+  const isChartView = () => activeView.value === 'chart';
 
   // ========================================
   // ACTIONS
   // ========================================
 
   const setActiveView = (view) => {
-    if (view === "list" || view === "chart") {
+    if (view === 'list' || view === 'chart') {
       activeView.value = view;
     }
   };
 
   const toggleView = () => {
-    activeView.value = activeView.value === "list" ? "chart" : "list";
+    activeView.value = activeView.value === 'list' ? 'chart' : 'list';
   };
 
   const toggleSidebar = () => {

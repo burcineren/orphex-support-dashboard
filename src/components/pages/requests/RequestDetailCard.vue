@@ -118,7 +118,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch } from 'vue';
 
 const props = defineProps({
   request: {
@@ -127,11 +127,11 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["save", "add-comment", "cancel"]);
+const emit = defineEmits(['save', 'add-comment', 'cancel']);
 
-const editableStatus = ref("");
-const editablePriority = ref("");
-const newComment = ref("");
+const editableStatus = ref('');
+const editablePriority = ref('');
+const newComment = ref('');
 
 watch(
   () => props.request,
@@ -145,7 +145,7 @@ watch(
 );
 
 const onSave = () => {
-  emit("save", {
+  emit('save', {
     status: editableStatus.value,
     priority: editablePriority.value,
   });
@@ -153,13 +153,13 @@ const onSave = () => {
 
 const onAddComment = () => {
   if (newComment.value.trim()) {
-    emit("add-comment", newComment.value);
-    newComment.value = "";
+    emit('add-comment', newComment.value);
+    newComment.value = '';
   }
 };
 
 const formatDateTime = (dateString) => {
-  if (!dateString) return "";
+  if (!dateString) return '';
   return new Date(dateString).toLocaleString();
 };
 </script>

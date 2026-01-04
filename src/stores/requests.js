@@ -1,9 +1,9 @@
-import { defineStore } from "pinia";
-import { ref, computed, watch } from "vue";
-import { generateMockData } from "@/composables/useSupportData.js";
-import { calculateNeedsAttention } from "@/composables/useSupportData.js";
+import { defineStore } from 'pinia';
+import { ref, computed, watch } from 'vue';
+import { generateMockData } from '@/composables/useSupportData.js';
+import { calculateNeedsAttention } from '@/composables/useSupportData.js';
 
-export const useRequestsStore = defineStore("requests", () => {
+export const useRequestsStore = defineStore('requests', () => {
   // ========================================
   // STATE
   // ========================================
@@ -76,7 +76,7 @@ export const useRequestsStore = defineStore("requests", () => {
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       // Upload from LocalStorage
-      const stored = localStorage.getItem("orphex_requests");
+      const stored = localStorage.getItem('orphex_requests');
 
       if (stored) {
         requests.value = JSON.parse(stored);
@@ -86,8 +86,8 @@ export const useRequestsStore = defineStore("requests", () => {
         saveToLocalStorage();
       }
     } catch (e) {
-      error.value = "Failed to load data. Please try again.";
-      console.error("Data initialization error:", e);
+      error.value = 'Failed to load data. Please try again.';
+      console.error('Data initialization error:', e);
       // Fallback mock data
       requests.value = generateMockData(25, 123);
     } finally {
@@ -97,9 +97,9 @@ export const useRequestsStore = defineStore("requests", () => {
 
   const saveToLocalStorage = () => {
     try {
-      localStorage.setItem("orphex_requests", JSON.stringify(requests.value));
+      localStorage.setItem('orphex_requests', JSON.stringify(requests.value));
     } catch (e) {
-      console.error("Failed to save to localStorage:", e);
+      console.error('Failed to save to localStorage:', e);
     }
   };
 
@@ -135,7 +135,7 @@ export const useRequestsStore = defineStore("requests", () => {
     const comment = {
       id: `comment-${Date.now()}`,
       text: commentText,
-      author: "Current User",
+      author: 'Current User',
       date: new Date().toISOString(),
     };
 
@@ -165,7 +165,7 @@ export const useRequestsStore = defineStore("requests", () => {
 
   const createRequest = (requestData) => {
     const newRequest = {
-      id: `REQ-${String(requests.value.length + 1).padStart(4, "0")}`,
+      id: `REQ-${String(requests.value.length + 1).padStart(4, '0')}`,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       lastCommentAt: null,
@@ -188,7 +188,7 @@ export const useRequestsStore = defineStore("requests", () => {
   const resetData = regenerateData;
   const clearData = () => {
     requests.value = [];
-    localStorage.removeItem("orphex_requests");
+    localStorage.removeItem('orphex_requests');
   };
 
   // ========================================

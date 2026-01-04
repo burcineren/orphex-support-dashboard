@@ -89,10 +89,10 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
-import PriorityBadge from "@/components/ui/PriorityBadge.vue";
-import AttentionBadges from "@/components/ui/AttentionBadges.vue";
-import StatusBadge from "@/components/ui/StatusBadge.vue";
+import { useRouter } from 'vue-router';
+import PriorityBadge from '@/components/ui/PriorityBadge.vue';
+import AttentionBadges from '@/components/ui/AttentionBadges.vue';
+import StatusBadge from '@/components/ui/StatusBadge.vue';
 
 const router = useRouter();
 
@@ -108,10 +108,10 @@ const goToDetail = (id) => {
 };
 
 const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString("tr-TR", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
+  return new Date(dateString).toLocaleDateString('tr-TR', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
   });
 };
 </script>

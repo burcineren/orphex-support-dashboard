@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed } from 'vue';
 const props = defineProps({
   request: {
     type: Object,
@@ -28,9 +28,9 @@ const showAttention = computed(() => attention.value.needsAttention);
 
 const shortReason = (reason) => {
   const shortNames = {
-    "High priority": "High",
-    "Aging request": "Old",
-    "No recent activity": "Stale",
+    'High priority': 'High',
+    'Aging request': 'Old',
+    'No recent activity': 'Stale',
   };
   return shortNames[reason] || reason;
 };

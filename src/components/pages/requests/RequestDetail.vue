@@ -133,17 +133,17 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from "vue";
-import { useRequestsStore } from "@/stores/requests";
-import { useUIStore } from "@/stores/ui";
-import { X } from "lucide-vue-next";
+import { ref, computed, watch } from 'vue';
+import { useRequestsStore } from '@/stores/requests';
+import { useUIStore } from '@/stores/ui';
+import { X } from 'lucide-vue-next';
 
 const requestsStore = useRequestsStore();
 const uiStore = useUIStore();
 
-const editStatus = ref("");
-const editPriority = ref("");
-const newComment = ref("");
+const editStatus = ref('');
+const editPriority = ref('');
+const newComment = ref('');
 
 const request = computed(() => {
   return requestsStore.getRequestById(uiStore.selectedRequestId);
@@ -172,7 +172,7 @@ const handleSave = () => {
 const handleAddComment = () => {
   if (newComment.value.trim()) {
     requestsStore.addComment(uiStore.selectedRequestId, newComment.value);
-    newComment.value = "";
+    newComment.value = '';
   }
 };
 

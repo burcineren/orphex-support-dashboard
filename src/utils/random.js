@@ -1,4 +1,4 @@
-import seedrandom from "seedrandom";
+import seedrandom from 'seedrandom';
 
 let rng = seedrandom(String(Date.now()));
 

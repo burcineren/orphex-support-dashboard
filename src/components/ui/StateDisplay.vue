@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed } from 'vue';
 
 const props = defineProps({
   loading: Boolean,
@@ -57,11 +57,11 @@ const props = defineProps({
   hasActiveFilters: Boolean,
 });
 
-defineEmits(["retry", "reset-filters", "generate-data"]);
+defineEmits(['retry', 'reset-filters', 'generate-data']);
 
 const emptyMessage = computed(() => {
   return props.hasActiveFilters
-    ? "Try adjusting your filters or clear all filters to see all requests."
-    : "No support requests available. Generate sample data to get started.";
+    ? 'Try adjusting your filters or clear all filters to see all requests.'
+    : 'No support requests available. Generate sample data to get started.';
 });
 </script>

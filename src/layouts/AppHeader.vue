@@ -43,8 +43,8 @@
 </template>
 
 <script setup>
-import { useRequestsStore } from "@/stores/requests";
-import { useFiltersStore } from "@/stores/filters";
+import { useRequestsStore } from '@/stores/requests';
+import { useFiltersStore } from '@/stores/filters';
 
 const requestsStore = useRequestsStore();
 const filtersStore = useFiltersStore();
