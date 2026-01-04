@@ -130,6 +130,15 @@ export const useFiltersStore = defineStore('filters', () => {
     showNeedsAttention.value = false;
   };
 
+  const formatCsvField = (field) => {
+    if (field === null || field === undefined) {
+      return '""';
+    }
+    const stringField = String(field);
+    const escapedField = stringField.replace(/"/g, '""');
+    return `"${escapedField}"`;
+  };
+
   const exportCSV = () => {
     const headers = [
       'ID',
@@ -144,15 +153,15 @@ export const useFiltersStore = defineStore('filters', () => {
     ];
 
     const rows = filteredRequests.value.map((r) => [
-      r.id,
-      `"${r.title?.replace(/"/g, '""')}"`,
-      r.customer,
-      r.status,
-      r.priority,
-      new Date(r.createdAt).toLocaleDateString('tr-TR'),
-      new Date(r.updatedAt).toLocaleDateString('tr-TR'),
-      r.attention?.needsAttention ? 'YES' : 'NO',
-      `"${(r.attention?.reasons || []).join('; ')}"`,
+      formatCsvField(r.id),
+      formatCsvField(r.title),
+      formatCsvField(r.customer),
+      formatCsvField(r.status),
+      formatCsvField(r.priority),
+      formatCsvField(new Date(r.createdAt).toLocaleDateString('tr-TR')),
+      formatCsvField(new Date(r.updatedAt).toLocaleDateString('tr-TR')),
+      formatCsvField(r.attention?.needsAttention ? 'YES' : 'NO'),
+      formatCsvField((r.attention?.reasons || []).join('; ')),
     ]);
 
     const csv = [headers, ...rows].map((row) => row.join(',')).join('\n');
