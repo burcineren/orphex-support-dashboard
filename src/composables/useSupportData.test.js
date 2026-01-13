@@ -88,16 +88,16 @@ describe('useSupportData', () => {
       expect(result.reasons).toEqual([]);
     });
 
-    it('flags high priority requests', () => {
+    it('flags high priority requests that are inactive', () => {
       const now = new Date();
-      const yesterday = new Date(now);
-      yesterday.setDate(yesterday.getDate() - 1);
+      const fourDaysAgo = new Date(now);
+      fourDaysAgo.setDate(fourDaysAgo.getDate() - 4);
 
       const request = {
         status: 'New',
         priority: 'High',
-        createdAt: yesterday.toISOString(),
-        updatedAt: yesterday.toISOString(),
+        createdAt: fourDaysAgo.toISOString(),
+        updatedAt: fourDaysAgo.toISOString(),
         lastCommentAt: null,
       };
 
@@ -105,21 +105,22 @@ describe('useSupportData', () => {
 
       expect(result.needsAttention).toBe(true);
       expect(result.reasons).toContain('High priority');
+      expect(result.reasons).toContain('No recent activity');
     });
 
-    it('flags aging requests (>7 days)', () => {
+    it('flags aging requests (>7 days) that are inactive', () => {
       const now = new Date();
       const tenDaysAgo = new Date(now);
       tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
 
-      const twoDaysAgo = new Date(now);
-      twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+      const fourDaysAgo = new Date(now);
+      fourDaysAgo.setDate(fourDaysAgo.getDate() - 4);
 
       const request = {
         status: 'New',
         priority: 'Low',
         createdAt: tenDaysAgo.toISOString(),
-        updatedAt: twoDaysAgo.toISOString(),
+        updatedAt: fourDaysAgo.toISOString(),
         lastCommentAt: null,
       };
 
@@ -127,9 +128,10 @@ describe('useSupportData', () => {
 
       expect(result.needsAttention).toBe(true);
       expect(result.reasons).toContain('Aging request');
+      expect(result.reasons).toContain('No recent activity');
     });
 
-    it('flags inactive requests (>3 days no activity)', () => {
+    it('does not flag inactive requests if not high priority or aging', () => {
       const now = new Date();
       const fiveDaysAgo = new Date(now);
       fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
@@ -144,11 +146,11 @@ describe('useSupportData', () => {
 
       const result = calculateNeedsAttention(request);
 
-      expect(result.needsAttention).toBe(true);
-      expect(result.reasons).toContain('No recent activity');
+      expect(result.needsAttention).toBe(false);
+      expect(result.reasons).toEqual([]);
     });
 
-    it('uses lastCommentAt as last activity if more recent', () => {
+    it('uses lastCommentAt as last activity to clear needsAttention', () => {
       const now = new Date();
       const tenDaysAgo = new Date(now);
       tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
@@ -166,9 +168,9 @@ describe('useSupportData', () => {
 
       const result = calculateNeedsAttention(request);
 
-      expect(result.needsAttention).toBe(true);
-      expect(result.reasons).toContain('Aging request');
-      expect(result.reasons).not.toContain('No recent activity');
+      // It is aging, but it is active (1 day ago), so needsAttention should be false
+      expect(result.needsAttention).toBe(false);
+      expect(result.reasons).toEqual([]);
     });
 
     it('handles multiple reasons simultaneously', () => {
